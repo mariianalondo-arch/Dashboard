@@ -1,0 +1,393 @@
+import React, { useState } from 'react';
+import { Shield, Target, CheckCircle, BookOpen, ArrowRight, Users, Lock, Settings, FileText, AlertTriangle } from 'lucide-react';
+
+const CybersecurityDashboard = () => {
+  const [activeTab, setActiveTab] = useState('overview');
+  const [selectedStandard, setSelectedStandard] = useState(null);
+  const [selectedFramework, setSelectedFramework] = useState(null);
+
+  const standards = [
+    {
+      id: 'iso27000',
+      name: 'ISO/IEC 27000',
+      description: 'Seguridad en gestión de sistemas de información',
+      details: 'ISO 27001: Requisitos para SGSI certificado. ISO 27002: Código de práctica para controles de seguridad.',
+      type: 'Seguridad de la Información',
+      mandatory: false
+    },
+    {
+      id: 'isf',
+      name: 'ISF SoGP',
+      description: 'Standard of Good Practice',
+      details: 'Publicado por Information Security Forum, revisado cada dos años, enfoque en seis aspectos principales.',
+      type: 'Seguridad de la Información',
+      mandatory: false
+    },
+    {
+      id: 'bsi',
+      name: 'BSI IT-Grundschutz',
+      description: 'Recomendaciones alemanas',
+      details: 'Ofrece recomendaciones para enfoques, procesos, métodos y procedimientos de ciberseguridad.',
+      type: 'Seguridad de la Información',
+      mandatory: false
+    },
+    {
+      id: 'fips',
+      name: 'FIPS 140-2',
+      description: 'Estándar criptográfico',
+      details: 'Especificaciones para módulos criptográficos utilizados en sistemas de seguridad.',
+      type: 'Criptografía',
+      mandatory: true
+    }
+  ];
+
+  const frameworks = [
+    {
+      id: 'cobit',
+      name: 'COBIT',
+      description: 'Marco de gobernanza y gestión de TI',
+      details: 'Estándar de alto nivel que se concentra en procesos de toma de decisiones en gestión de TI.',
+      flexibility: 'Alta',
+      scope: 'Amplio'
+    },
+    {
+      id: 'nist_csf',
+      name: 'NIST CSF',
+      description: 'Cybersecurity Framework',
+      details: 'Base para programas de ciberseguridad establecida en 2014, recopila mejores prácticas.',
+      flexibility: 'Media',
+      scope: 'Específico'
+    },
+    {
+      id: 'nist_rmf',
+      name: 'NIST RMF',
+      description: 'Risk Management Framework',
+      details: 'Proceso de siete pasos para gestionar riesgos de privacidad y seguridad de la información.',
+      flexibility: 'Media',
+      scope: 'Específico'
+    },
+    {
+      id: 'nist_pf',
+      name: 'NIST Privacy Framework',
+      description: 'Marco de Privacidad',
+      details: 'Se enfoca en detectar y responder a problemas de privacidad, considerando la privacidad individual.',
+      flexibility: 'Media',
+      scope: 'Específico'
+    }
+  ];
+
+  const benefits = [
+    { icon: <Target className="w-5 h-5" />, title: 'Ahorro de tiempo', desc: 'Procesos optimizados' },
+    { icon: <CheckCircle className="w-5 h-5" />, title: 'Reducción de costos', desc: 'Implementación eficiente' },
+    { icon: <Users className="w-5 h-5" />, title: 'Conciencia del usuario', desc: 'Mejor capacitación' },
+    { icon: <Lock className="w-5 h-5" />, title: 'Minimización de riesgos', desc: 'Protección robusta' },
+    { icon: <Settings className="w-5 h-5" />, title: 'Continuidad del negocio', desc: 'Operaciones seguras' },
+    { icon: <FileText className="w-5 h-5" />, title: 'Cumplimiento', desc: 'Mejores prácticas' }
+  ];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
+      <div className="container mx-auto px-4 py-6">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Shield className="w-10 h-10 text-blue-400" />
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              Marcos y Estándares de Ciberseguridad
+            </h1>
+          </div>
+          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+            Dashboard interactivo para estudiar los conceptos fundamentales de ciberseguridad
+          </p>
+        </div>
+
+        {/* Navigation Tabs */}
+        <div className="flex flex-wrap justify-center gap-2 mb-8">
+          {[
+            { id: 'overview', label: 'Resumen', icon: <BookOpen className="w-4 h-4" /> },
+            { id: 'standards', label: 'Estándares', icon: <FileText className="w-4 h-4" /> },
+            { id: 'frameworks', label: 'Marcos', icon: <Settings className="w-4 h-4" /> },
+            { id: 'comparison', label: 'Comparación', icon: <ArrowRight className="w-4 h-4" /> }
+          ].map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                activeTab === tab.id 
+                  ? 'bg-blue-600 text-white shadow-lg' 
+                  : 'bg-slate-800 text-gray-300 hover:bg-slate-700'
+              }`}
+            >
+              {tab.icon}
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Content Area */}
+        <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 shadow-2xl">
+          {activeTab === 'overview' && (
+            <div>
+              <h2 className="text-2xl font-bold mb-6 text-center">Conceptos Fundamentales</h2>
+              
+              <div className="grid md:grid-cols-2 gap-6 mb-8">
+                <div className="bg-gradient-to-br from-blue-600/20 to-blue-800/20 p-6 rounded-xl border border-blue-500/30">
+                  <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <FileText className="w-5 h-5 text-blue-400" />
+                    Estándares de Ciberseguridad
+                  </h3>
+                  <p className="text-gray-300 mb-4">
+                    Documentos que definen especificaciones, procedimientos y directrices para asegurar 
+                    la seguridad, consistencia y fiabilidad de productos, servicios y sistemas.
+                  </p>
+                  <ul className="space-y-2 text-sm text-gray-400">
+                    <li>• Especifican QUÉ se debe hacer</li>
+                    <li>• Pueden ser obligatorios por ley</li>
+                    <li>• Abiertos o cerrados según industria</li>
+                  </ul>
+                </div>
+
+                <div className="bg-gradient-to-br from-purple-600/20 to-purple-800/20 p-6 rounded-xl border border-purple-500/30">
+                  <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <Settings className="w-5 h-5 text-purple-400" />
+                    Marcos de Ciberseguridad
+                  </h3>
+                  <p className="text-gray-300 mb-4">
+                    Estructuras que una organización necesita para protegerse contra ciberataques. 
+                    Proporcionan directrices generales y adaptables.
+                  </p>
+                  <ul className="space-y-2 text-sm text-gray-400">
+                    <li>• Guían CÓMO implementar</li>
+                    <li>• Flexibles y adaptables</li>
+                    <li>• Reducen costos de implementación</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="mb-8">
+                <h3 className="text-xl font-semibold mb-4 text-center">Beneficios de la Implementación</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {benefits.map((benefit, index) => (
+                    <div key={index} className="bg-slate-700/50 p-4 rounded-lg text-center hover:bg-slate-700 transition-colors">
+                      <div className="text-green-400 mb-2 flex justify-center">{benefit.icon}</div>
+                      <h4 className="font-semibold text-sm">{benefit.title}</h4>
+                      <p className="text-xs text-gray-400 mt-1">{benefit.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-green-600/20 to-emerald-600/20 p-6 rounded-xl border border-green-500/30">
+                <h3 className="text-xl font-semibold mb-3 flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  Relación Complementaria
+                </h3>
+                <p className="text-gray-300">
+                  <strong>Los estándares y marcos son complementarios:</strong> Los marcos guían a las organizaciones 
+                  en el proceso de implementación para cumplir con los requisitos de los estándares. Una implementación 
+                  efectiva requiere ambos elementos trabajando en conjunto.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'standards' && (
+            <div>
+              <h2 className="text-2xl font-bold mb-6 text-center">Estándares de Ciberseguridad</h2>
+              
+              <div className="grid gap-4 mb-6">
+                {standards.map(standard => (
+                  <div 
+                    key={standard.id}
+                    className={`p-4 rounded-lg border cursor-pointer transition-all ${
+                      selectedStandard === standard.id
+                        ? 'bg-blue-600/30 border-blue-400'
+                        : 'bg-slate-700/50 border-slate-600 hover:bg-slate-700'
+                    }`}
+                    onClick={() => setSelectedStandard(selectedStandard === standard.id ? null : standard.id)}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="font-semibold text-lg">{standard.name}</h3>
+                        <p className="text-gray-400">{standard.description}</p>
+                        <div className="flex gap-2 mt-2">
+                          <span className="text-xs px-2 py-1 bg-blue-600/30 rounded text-blue-300">
+                            {standard.type}
+                          </span>
+                          <span className={`text-xs px-2 py-1 rounded ${
+                            standard.mandatory 
+                              ? 'bg-red-600/30 text-red-300' 
+                              : 'bg-green-600/30 text-green-300'
+                          }`}>
+                            {standard.mandatory ? 'Obligatorio' : 'Voluntario'}
+                          </span>
+                        </div>
+                      </div>
+                      <ArrowRight className={`w-5 h-5 transition-transform ${
+                        selectedStandard === standard.id ? 'rotate-90' : ''
+                      }`} />
+                    </div>
+                    
+                    {selectedStandard === standard.id && (
+                      <div className="mt-4 p-4 bg-slate-800/50 rounded-lg">
+                        <p className="text-gray-300">{standard.details}</p>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              <div className="bg-yellow-600/20 p-4 rounded-lg border border-yellow-500/30">
+                <div className="flex items-center gap-2 mb-2">
+                  <AlertTriangle className="w-5 h-5 text-yellow-400" />
+                  <h3 className="font-semibold">Punto Clave</h3>
+                </div>
+                <p className="text-gray-300 text-sm">
+                  Los estándares explican QUÉ se debe hacer paso a paso, pero no especifican CÓMO lograr 
+                  los requisitos del estándar. Para eso necesitamos los marcos de trabajo.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'frameworks' && (
+            <div>
+              <h2 className="text-2xl font-bold mb-6 text-center">Marcos de Ciberseguridad</h2>
+              
+              <div className="grid gap-4 mb-6">
+                {frameworks.map(framework => (
+                  <div 
+                    key={framework.id}
+                    className={`p-4 rounded-lg border cursor-pointer transition-all ${
+                      selectedFramework === framework.id
+                        ? 'bg-purple-600/30 border-purple-400'
+                        : 'bg-slate-700/50 border-slate-600 hover:bg-slate-700'
+                    }`}
+                    onClick={() => setSelectedFramework(selectedFramework === framework.id ? null : framework.id)}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="font-semibold text-lg">{framework.name}</h3>
+                        <p className="text-gray-400">{framework.description}</p>
+                        <div className="flex gap-2 mt-2">
+                          <span className="text-xs px-2 py-1 bg-purple-600/30 rounded text-purple-300">
+                            Flexibilidad: {framework.flexibility}
+                          </span>
+                          <span className="text-xs px-2 py-1 bg-indigo-600/30 rounded text-indigo-300">
+                            Alcance: {framework.scope}
+                          </span>
+                        </div>
+                      </div>
+                      <ArrowRight className={`w-5 h-5 transition-transform ${
+                        selectedFramework === framework.id ? 'rotate-90' : ''
+                      }`} />
+                    </div>
+                    
+                    {selectedFramework === framework.id && (
+                      <div className="mt-4 p-4 bg-slate-800/50 rounded-lg">
+                        <p className="text-gray-300">{framework.details}</p>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              <div className="bg-green-600/20 p-4 rounded-lg border border-green-500/30">
+                <div className="flex items-center gap-2 mb-2">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <h3 className="font-semibold">Características Clave</h3>
+                </div>
+                <p className="text-gray-300 text-sm">
+                  Los marcos son flexibles y permiten elegir algunas partes o la totalidad del modelo. 
+                  Esta flexibilidad puede reducir significativamente los costos de implementación.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'comparison' && (
+            <div>
+              <h2 className="text-2xl font-bold mb-6 text-center">Comparación: Estándares vs Marcos</h2>
+              
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-slate-600">
+                      <th className="text-left p-4 font-semibold">Aspecto</th>
+                      <th className="text-left p-4 font-semibold text-blue-400">Estándares</th>
+                      <th className="text-left p-4 font-semibold text-purple-400">Marcos</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-700">
+                    <tr>
+                      <td className="p-4 font-medium">Propósito</td>
+                      <td className="p-4 text-gray-300">Especifican QUÉ se debe hacer</td>
+                      <td className="p-4 text-gray-300">Guían CÓMO implementar</td>
+                    </tr>
+                    <tr>
+                      <td className="p-4 font-medium">Flexibilidad</td>
+                      <td className="p-4 text-gray-300">Rígidos, especificaciones exactas</td>
+                      <td className="p-4 text-gray-300">Flexibles, adaptables</td>
+                    </tr>
+                    <tr>
+                      <td className="p-4 font-medium">Detalles</td>
+                      <td className="p-4 text-gray-300">Pasos detallados, específicos</td>
+                      <td className="p-4 text-gray-300">Directrices generales</td>
+                    </tr>
+                    <tr>
+                      <td className="p-4 font-medium">Implementación</td>
+                      <td className="p-4 text-gray-300">No incluyen cómo lograr requisitos</td>
+                      <td className="p-4 text-gray-300">Proporcionan metodología</td>
+                    </tr>
+                    <tr>
+                      <td className="p-4 font-medium">Costos</td>
+                      <td className="p-4 text-gray-300">Pueden ser más costosos</td>
+                      <td className="p-4 text-gray-300">Reducen costos de implementación</td>
+                    </tr>
+                    <tr>
+                      <td className="p-4 font-medium">Obligatoriedad</td>
+                      <td className="p-4 text-gray-300">Pueden ser obligatorios por ley</td>
+                      <td className="p-4 text-gray-300">Generalmente recomendados</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="mt-8 grid md:grid-cols-2 gap-6">
+                <div className="bg-gradient-to-br from-blue-600/20 to-blue-800/20 p-6 rounded-xl border border-blue-500/30">
+                  <h3 className="text-lg font-semibold mb-3 text-blue-400">Cuándo usar Estándares</h3>
+                  <ul className="space-y-2 text-gray-300 text-sm">
+                    <li>• Necesitas cumplimiento regulatorio</li>
+                    <li>• Requieres especificaciones exactas</li>
+                    <li>• Buscas certificación formal</li>
+                    <li>• Industria con requisitos estrictos</li>
+                  </ul>
+                </div>
+
+                <div className="bg-gradient-to-br from-purple-600/20 to-purple-800/20 p-6 rounded-xl border border-purple-500/30">
+                  <h3 className="text-lg font-semibold mb-3 text-purple-400">Cuándo usar Marcos</h3>
+                  <ul className="space-y-2 text-gray-300 text-sm">
+                    <li>• Necesitas flexibilidad en implementación</li>
+                    <li>• Quieres reducir costos</li>
+                    <li>• Buscas directrices generales</li>
+                    <li>• Organizaciones en crecimiento</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="mt-6 bg-gradient-to-r from-green-600/20 to-emerald-600/20 p-6 rounded-xl border border-green-500/30 text-center">
+                <h3 className="text-lg font-semibold mb-2 text-green-400">Conclusión</h3>
+                <p className="text-gray-300">
+                  La implementación más efectiva combina ambos: <strong>marcos para guiar la implementación</strong> 
+                  y <strong>estándares para definir requisitos específicos</strong>. Son complementarios, no excluyentes.
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CybersecurityDashboard;
